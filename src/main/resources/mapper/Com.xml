@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.team9.mapper.ComDao">
+    <resultMap id="comMap" type="com.team9.domain.Yjcompany">
+        <result property="comId" column="com_id"/>
+        <result property="comName" column="com_name"/>
+    </resultMap>
+    <select id="selectAll"
+            parameterType="com.team9.domain.ComSqlParameter"
+            resultMap="comMap">
+        SELECT
+        com_name
+        FROM yj_company
+        <where>
+            1=1
+            <if test="comName != null">
+                AND com_name LIKE '%${comName}%'
+            </if>
+            limit #{pageIndex},#{pageSize}
+        </where>
+    </select>
+    <select id="selectTotal"
+            parameterType="java.lang.String"
+            resultType="java.lang.Integer">
+        SELECT
+        count(com_id)
+        FROM yj_company
+        <where>
+            1=1
+            <if test="value != null">
+                AND com_name LIKE '%${value}%'
+            </if>
+        </where>
+    </select>
+</mapper>

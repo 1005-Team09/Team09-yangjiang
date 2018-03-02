@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.team9.mapper.FacDao">
+    <resultMap id="facMap" type="com.team9.domain.YjFactory">
+        <result property="facId" column="fac_id"/>
+        <result property="facName" column="fac_name"/>
+    </resultMap>
+
+    <select id="selectAll"
+            parameterType="com.team9.domain.FacSqlParameter"
+            resultMap="facMap">
+        SELECT
+        fac_name
+        FROM yj_factory
+        <where>
+            1=1
+            <if test="facName != null">
+                AND fac_name LIKE '%${facName}%'
+            </if>
+            limit #{pageIndex},#{pageSize}
+        </where>
+    </select>
+    <select id="selectTotal"
+            parameterType="java.lang.String"
+            resultType="java.lang.Integer">
+        SELECT
+        count(fac_id)
+        FROM yj_factory
+        <where>
+            1=1
+            <if test="value != null">
+                AND fac_name LIKE '%${value}%'
+            </if>
+        </where>
+    </select>
+</mapper>
